@@ -29,7 +29,7 @@ const App = () => {
     <>
     <ThemeProvider theme={darkTheme}>
       <AppBar color='primary' position='fixed'>
-      <DirectionsCarIcon sx={icon}/>
+        <DirectionsCarIcon sx={icon}/>
       </AppBar>
       <BrowserRouter>
         <Routes>
