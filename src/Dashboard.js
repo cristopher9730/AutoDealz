@@ -18,7 +18,13 @@ export const Dashboard = () =>{
     const dashBoard = {
         display:'flex',
         flexWrap:'wrap',
-        marginTop: '10%'
+        marginTop: '9%',
+        '@media screen and (max-width:900px)':{
+            marginTop:'13%'
+        },
+        '@media screen and (max-width:700px)':{
+            marginTop:'20%'
+        }
     }
     
     const [carArray, setCarArray] = useState([]); 
@@ -40,7 +46,7 @@ export const Dashboard = () =>{
 
     return (
         <>
-        {!isLoading ? <Grid sx={dashBoard}>
+        {!isLoading ? <Grid sx={dashBoard} container>
             {carArray.map(car =>{
                 let color = 'rgba(62, 214, 17, 1)';
                 let lightColor = 'rgba(62, 214, 17, 0.3)';
@@ -51,11 +57,12 @@ export const Dashboard = () =>{
                     soldLabel = 'Sold';
                 }
                 return (
-                    <Card sx={{ width: '20%', margin: '10px 30px' }}>
-                        <CardMedia
-                            sx={{ height: 140 }}
-                            image={car.picture}
-                        />
+                    <Grid item lg={3} md={6} sm={6} xs={12}>
+                        <Card sx={{minWidth:'275px', margin:'10px 20px'}}>
+                            <CardMedia
+                                sx={{ height: 140 }}
+                                image={car.picture}
+                            />
                         <CardContent>
                             <Box display={'flex'} width={'95%'} justifyContent={'space-between'} alignItems={'center'}>
                                 <Typography sx={{fontSize:'20px'}}>
@@ -80,6 +87,7 @@ export const Dashboard = () =>{
                                     color='primary'><AttachMoneyIcon/></Button>
                             </CardActions>
                         </Card>
+                    </Grid>
                 )
             })}
         </Grid> : 
