@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import EditIcon from '@mui/icons-material/Edit';
+import InfoIcon from '@mui/icons-material/Info';
 
 const style = {
     position: 'absolute',
@@ -32,8 +32,6 @@ const style = {
 
 export const Dashboard = (props) =>{
 
-    
-
     const dashBoard = {
         display:'flex',
         flexWrap:'wrap',
@@ -48,6 +46,7 @@ export const Dashboard = (props) =>{
     
     const [carArray, setCarArray] = useState([]); 
     const [isLoading, setIsLoading] = useState(false);
+    const [selectedCar, setSelectedCar] = useState({});
 
     const numberWithCommas = (number) =>{
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -100,9 +99,16 @@ export const Dashboard = (props) =>{
                         </CardContent>
                             <CardActions sx={{justifyContent:'center'}}>
                                     <Button size='small' variant='contained'
-                                    disabled={car.sold} color='primary'><EditIcon/></Button>
+                                    onClick={() => {
+                                        setSelectedCar(car);
+                                        //handleModal();
+                                    }}
+                                    disabled={car.sold} color='primary'><InfoIcon/></Button>
                                     <Button size='small' variant='contained' 
-                                    disabled={car.sold}
+                                    onClick={() => {
+                                        setSelectedCar(car);
+                                        //markAsSold();
+                                    }}
                                     color='primary'><AttachMoneyIcon/></Button>
                             </CardActions>
                         </Card>
