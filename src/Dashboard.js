@@ -7,13 +7,32 @@ import {
     Typography, 
     Button, 
     CircularProgress,
-    Box
+    Box,
+    Modal,
+    TextField
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import EditIcon from '@mui/icons-material/Edit';
 
-export const Dashboard = () =>{
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '50%',
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center'
+  };
+
+export const Dashboard = (props) =>{
+
+    
 
     const dashBoard = {
         display:'flex',
@@ -95,6 +114,74 @@ export const Dashboard = () =>{
                 <CircularProgress color='primary'/>
             </Box>
         }
+
+        <Modal
+        open={props.openModal}
+        onClose={props.handleCloseModal}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        >
+            <Box sx={style}>
+                <Box sx={{m:4, width:'90%'}}>
+                    <Box sx={{mb:2}}>
+                        <Typography id="modal-modal-title" variant="h5" textAlign={'center'}>
+                            Add Car
+                        </Typography>
+                    </Box>
+                    <Grid 
+                    container spacing={2} 
+                    columns={17}
+                    direction="row"
+                    justifyContent="space-evenly"
+                    alignItems="center" 
+                    sx={{width:'100%', m:0}}
+                    >
+                        <Grid xs={8}>
+                            <Box sx={{mb:2}}>
+                                <TextField label="Brand" variant="outlined" fullWidth  />
+                            </Box>
+                            <Box sx={{mb:2}}>
+                                <TextField label="Color" variant="outlined" fullWidth  />
+                            </Box>
+                            <Box sx={{mb:2}}>
+                                <TextField label="Type" variant="outlined" fullWidth  />
+                            </Box>
+                            <Box sx={{mb:2}}>
+                                <TextField label="Year" variant="outlined" fullWidth  />
+                            </Box>
+                            <Box sx={{mb:2}}>
+                                <TextField label="Price" variant="outlined" fullWidth  />
+                            </Box>
+                            <Box sx={{mb:2}}>
+                                <TextField label="Picture" variant="outlined" fullWidth  />
+                            </Box>
+                        </Grid>
+                        <Grid xs={8}>
+                            <Box sx={{mb:2}}>
+                                <TextField label="Model" variant="outlined" fullWidth  />
+                            </Box>
+                            <Box sx={{mb:2}}>
+                                <TextField label="Fuel" variant="outlined" fullWidth  />
+                            </Box>
+                            <Box sx={{mb:2}}>
+                                <TextField label="Odometer" variant="outlined" fullWidth  />
+                            </Box>
+                            <Box sx={{mb:2}}>
+                                <TextField label="Transmission" variant="outlined" fullWidth  />
+                            </Box>
+                            <Box sx={{mb:2}}>
+                                <TextField label="Cylinders" variant="outlined" fullWidth  />
+                            </Box>
+                        </Grid>
+                    </Grid>
+                    <Box>
+                        <Button size='medium' variant='contained'
+                        color='primary' sx={{m:'15px'}}>Add Car</Button>
+                    </Box>
+                </Box>
+            </Box>
+        </Modal>
+
         </>
     )
 }
