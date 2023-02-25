@@ -53,6 +53,20 @@ export const Dashboard = (props) =>{
     const [carArray, setCarArray] = useState([]); 
     const [isLoading, setIsLoading] = useState(false);
     const [selectedCar, setSelectedCar] = useState({});
+    const [car, setCar] = useState({
+        brand: '',
+        color: '',
+        cylinders: '',
+        fuel:'',
+        model:'',
+        odometer:'',
+        picture: '',
+        price: '',
+        sold: false,
+        transmission:'',
+        type: '',
+        year: ''
+      });
 
     const numberWithCommas = (number) =>{
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -67,6 +81,14 @@ export const Dashboard = (props) =>{
             setIsLoading(false);
         });
     },[]);
+    
+      const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        setCar((prevState) => ({
+          ...prevState,
+          [name]: value
+        }));
+      };
 
     return (
         <>
@@ -150,39 +172,125 @@ export const Dashboard = (props) =>{
                     >
                         <Grid xs={8}>
                             <Box sx={{mb:2}}>
-                                <TextField label="Brand" variant="outlined" fullWidth  />
+                                <TextField 
+                                    label="Brand" 
+                                    variant="outlined" 
+                                    fullWidth 
+                                    defaultValue={props.info? selectedCar.brand:''} 
+                                    disabled={props.info? true:false}
+                                    name='brand'
+                                    onChange={handleInputChange}
+                                />
                             </Box>
                             <Box sx={{mb:2}}>
-                                <TextField label="Color" variant="outlined" fullWidth  />
+                                <TextField 
+                                    label="Color" 
+                                    variant="outlined" 
+                                    fullWidth 
+                                    defaultValue={props.info? selectedCar.color:''} 
+                                    disabled={props.info? true:false}
+                                    name='color'
+                                    onChange={handleInputChange}
+                                />
                             </Box>
                             <Box sx={{mb:2}}>
-                                <TextField label="Type" variant="outlined" fullWidth  />
+                                <TextField 
+                                    label="Type" 
+                                    variant="outlined" 
+                                    fullWidth 
+                                    defaultValue={props.info? selectedCar.type:''} 
+                                    disabled={props.info? true:false} 
+                                    name='type'
+                                    onChange={handleInputChange}    
+                                />
                             </Box>
                             <Box sx={{mb:2}}>
-                                <TextField label="Year" variant="outlined" fullWidth  />
+                                <TextField 
+                                label="Year" 
+                                variant="outlined" 
+                                fullWidth 
+                                defaultValue={props.info? selectedCar.year:''} 
+                                disabled={props.info? true:false} 
+                                name='year'
+                                onChange={handleInputChange}    
+                            />
                             </Box>
                             <Box sx={{mb:2}}>
-                                <TextField label="Price" variant="outlined" fullWidth  />
+                                <TextField 
+                                    label="Price" 
+                                    variant="outlined" 
+                                    fullWidth 
+                                    defaultValue={props.info? selectedCar.price:''} 
+                                    disabled={props.info? true:false} 
+                                    name='price'
+                                    onChange={handleInputChange}    
+                                />
                             </Box>
                             <Box sx={{mb:2}}>
-                                <TextField label="Picture" variant="outlined" fullWidth  />
+                                <TextField 
+                                    label="Picture" 
+                                    variant="outlined" 
+                                    fullWidth
+                                    name='picture'
+                                    onChange={handleInputChange}    
+                                />
                             </Box>
                         </Grid>
                         <Grid xs={8}>
                             <Box sx={{mb:2}}>
-                                <TextField label="Model" variant="outlined" fullWidth  />
+                                <TextField 
+                                    label="Model" 
+                                    variant="outlined" 
+                                    fullWidth 
+                                    defaultValue={props.info? selectedCar.model:''} 
+                                    disabled={props.info? true:false} 
+                                    name='model'
+                                    onChange={handleInputChange}    
+                                />
                             </Box>
                             <Box sx={{mb:2}}>
-                                <TextField label="Fuel" variant="outlined" fullWidth  />
+                                <TextField 
+                                    label="Fuel" 
+                                    variant="outlined" 
+                                    fullWidth 
+                                    defaultValue={props.info? selectedCar.fuel:''} 
+                                    disabled={props.info? true:false} 
+                                    name='fuel'
+                                    onChange={handleInputChange}    
+                                />
                             </Box>
                             <Box sx={{mb:2}}>
-                                <TextField label="Odometer" variant="outlined" fullWidth  />
+                                <TextField 
+                                    label="Odometer" 
+                                    variant="outlined" 
+                                    fullWidth 
+                                    defaultValue={props.info? selectedCar.odometer:''} 
+                                    disabled={props.info? true:false} 
+                                    name='odometer'
+                                    onChange={handleInputChange}    
+                                />
                             </Box>
                             <Box sx={{mb:2}}>
-                                <TextField label="Transmission" variant="outlined" fullWidth  />
+                                <TextField 
+                                    label="Transmission" 
+                                    variant="outlined" 
+                                    fullWidth 
+                                    defaultValue={props.info? selectedCar.transmission:''} 
+                                    disabled={props.info? true:false} 
+                                    name='transmission'
+                                    onChange={handleInputChange}    
+                                />
                             </Box>
                             <Box sx={{mb:2}}>
-                                <TextField label="Cylinders" variant="outlined" fullWidth  />
+                                <TextField 
+                                    label="Cylinders" 
+                                    variant="outlined" 
+                                    fullWidth 
+                                    defaultValue={props.info? selectedCar.cylinders:''} 
+                                    disabled={props.info? true:false} 
+                                    name='cylinders'
+                                    onChange={handleInputChange}    
+                                />
                             </Box>
                         </Grid>
                     </Grid>
