@@ -57,8 +57,9 @@ const title = {
 const App = () => {
   const [open, setOpen] = useState(false);
   const [selectedCar, setSelectedCar] = useState({});
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleInfo=(param)=>{setInfo(param)};
+  const handleModal=(param)=>{setOpen(param)};
+  const [info, setInfo] = useState(false);
   
 
   return (
@@ -70,13 +71,16 @@ const App = () => {
           <Typography variant="h1" sx={title}>Cars</Typography>
         </Box>
         <Box>
-        <Button onClick={handleOpen} size='medium' variant='contained'
+        <Button onClick = {()=>{
+          handleModal(true);
+          handleInfo(false);
+        } } size='medium' variant='contained'
          color='secondary' sx={{m:'15px'}}>Add Car</Button>
         </Box>
       </AppBar>
       <BrowserRouter>
         <Routes>
-          <Route path={'/'} element={<Dashboard openModal={open} handleCloseModal={handleClose}/>}/>
+          <Route path={'/'} element={<Dashboard openModal={open} handleModal={handleModal} handleInfo={handleInfo} info={info}/>}/>
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

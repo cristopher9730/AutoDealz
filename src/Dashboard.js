@@ -28,7 +28,13 @@ const style = {
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center'
-  };
+};
+
+const flex = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+}
 
 export const Dashboard = (props) =>{
 
@@ -101,7 +107,8 @@ export const Dashboard = (props) =>{
                                     <Button size='small' variant='contained'
                                     onClick={() => {
                                         setSelectedCar(car);
-                                        //handleModal();
+                                        props.handleInfo(true);
+                                        props.handleModal(true);
                                     }}
                                     disabled={car.sold} color='primary'><InfoIcon/></Button>
                                     <Button size='small' variant='contained' 
@@ -123,7 +130,7 @@ export const Dashboard = (props) =>{
 
         <Modal
         open={props.openModal}
-        onClose={props.handleCloseModal}
+        //onClick = {()=>props.handleModal(false)}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
         >
@@ -131,7 +138,7 @@ export const Dashboard = (props) =>{
                 <Box sx={{m:4, width:'90%'}}>
                     <Box sx={{mb:2}}>
                         <Typography id="modal-modal-title" variant="h5" textAlign={'center'}>
-                            Add Car
+                            {props.info ? "Information": "Add Car"}
                         </Typography>
                     </Box>
                     <Grid 
@@ -139,7 +146,6 @@ export const Dashboard = (props) =>{
                     columns={17}
                     direction="row"
                     justifyContent="space-evenly"
-                    alignItems="center" 
                     sx={{width:'100%', m:0}}
                     >
                         <Grid xs={8}>
@@ -180,9 +186,22 @@ export const Dashboard = (props) =>{
                             </Box>
                         </Grid>
                     </Grid>
-                    <Box>
-                        <Button size='medium' variant='contained'
-                        color='primary' sx={{m:'15px'}}>Add Car</Button>
+                    <Box sx={flex}>
+                        <Box>
+                            <Button size='medium' variant='contained'
+                            color='primary' sx={{m:'15px', width:'90px'}}
+                            >
+                                {props.info ? "Edit": "Add"}
+                            </Button>
+                        </Box>
+                        <Box>
+                            <Button size='medium' variant='contained'
+                            color='primary' sx={{m:'15px', width:'90px'}}
+                            onClick = {()=>props.handleModal(false)}
+                            >
+                                Cancel
+                            </Button>
+                        </Box>
                     </Box>
                 </Box>
             </Box>
