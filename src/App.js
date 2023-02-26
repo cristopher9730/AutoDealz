@@ -56,7 +56,6 @@ const title = {
 
 const App = () => {
   const [open, setOpen] = useState(false);
-  const [selectedCar, setSelectedCar] = useState({});
   const handleInfo=(param)=>{setInfo(param)};
   const handleModal=(param)=>{setOpen(param)};
   const [info, setInfo] = useState(false);

@@ -72,7 +72,28 @@ export const Dashboard = (props) =>{
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 
+    const restartCar=()=>{
+        setCar({
+            brand: '',
+            color: '',
+            cylinders: '',
+            fuel:'',
+            model:'',
+            odometer:'',
+            picture: '',
+            price: '',
+            sold: false,
+            transmission:'',
+            type: '',
+            year: ''
+        })
+    }
+
     useEffect(()=>{
+        loadPage();
+    },[]);
+
+    const loadPage = () => {
         setIsLoading(true);
         fetch('https://componentes-spring.azurewebsites.net/api/cars/getCars')
         .then(response => response.json())
@@ -80,8 +101,8 @@ export const Dashboard = (props) =>{
             setCarArray(data);
             setIsLoading(false);
         });
-    },[]);
-    
+    } 
+
       const handleInputChange = (event) => {
         const { name, value } = event.target;
         setCar((prevState) => ({
@@ -89,6 +110,18 @@ export const Dashboard = (props) =>{
           [name]: value
         }));
       };
+
+      const addCar = () => {
+        fetch("http://localhost:8080/api/cars/submitCar",
+        {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(car)
+        }).then(() => {
+            restartCar();
+            loadPage();
+          })  
+      }
 
     return (
         <>
@@ -298,6 +331,10 @@ export const Dashboard = (props) =>{
                         <Box>
                             <Button size='medium' variant='contained'
                             color='primary' sx={{m:'15px', width:'90px'}}
+                            onClick={()=>{
+                                addCar();
+                                props.handleModal(false);
+                            }}
                             >
                                 {props.info ? "Edit": "Add"}
                             </Button>
