@@ -53,43 +53,28 @@ export const Dashboard = (props) =>{
     const [carArray, setCarArray] = useState([]); 
     const [isLoading, setIsLoading] = useState(false);
     const [selectedCar, setSelectedCar] = useState({});
-    const [car, setCar] = useState({
-        brand: '',
-        color: '',
-        cylinders: '',
-        fuel:'',
-        model:'',
-        odometer:'',
-        picture: '',
-        price: '',
-        sold: false,
-        transmission:'',
-        type: '',
-        year: ''
-      });
 
     const numberWithCommas = (number) =>{
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 
-    const restartCar=()=>{
-        setCar({
-            brand: '',
-            color: '',
-            cylinders: '',
-            fuel:'',
-            model:'',
-            odometer:'',
-            picture: '',
-            price: '',
-            sold: false,
-            transmission:'',
-            type: '',
-            year: ''
-        })
-    }
-
     useEffect(()=>{
+        if(!props.info){
+            setSelectedCar({
+                brand: '',
+                color: '',
+                cylinders: '',
+                fuel:'',
+                model:'',
+                odometer:'',
+                picture: '',
+                price: '',
+                sold: false,
+                transmission:'',
+                type: '',
+                year: ''
+              })
+            }      
         loadPage();
     },[]);
 
@@ -105,22 +90,27 @@ export const Dashboard = (props) =>{
 
       const handleInputChange = (event) => {
         const { name, value } = event.target;
-        setCar((prevState) => ({
+        setSelectedCar((prevState) => ({
           ...prevState,
           [name]: value
         }));
       };
 
-      const addCar = () => {
-        fetch("http://localhost:8080/api/cars/submitCar",
-        {
-            method: "POST",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(car)
-        }).then(() => {
-            restartCar();
-            loadPage();
-          })  
+      const modalAction = () => {
+        if(!props.info){
+            fetch("http://localhost:8080/api/cars/submitCar",
+            {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(selectedCar)
+            }).then(() => {
+                loadPage();
+                props.handleModal(false);
+            }); 
+        }
+        else{
+            props.handleInfo(false);
+        }
       }
 
     return (
@@ -185,7 +175,6 @@ export const Dashboard = (props) =>{
 
         <Modal
         open={props.openModal}
-        //onClick = {()=>props.handleModal(false)}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
         >
@@ -210,7 +199,7 @@ export const Dashboard = (props) =>{
                                     variant="outlined" 
                                     fullWidth 
                                     defaultValue={props.info? selectedCar.brand:''} 
-                                    disabled={props.info? true:false}
+                                    disabled={props.info}
                                     name='brand'
                                     onChange={handleInputChange}
                                 />
@@ -221,7 +210,7 @@ export const Dashboard = (props) =>{
                                     variant="outlined" 
                                     fullWidth 
                                     defaultValue={props.info? selectedCar.color:''} 
-                                    disabled={props.info? true:false}
+                                    disabled={props.info}
                                     name='color'
                                     onChange={handleInputChange}
                                 />
@@ -232,7 +221,7 @@ export const Dashboard = (props) =>{
                                     variant="outlined" 
                                     fullWidth 
                                     defaultValue={props.info? selectedCar.type:''} 
-                                    disabled={props.info? true:false} 
+                                    disabled={props.info} 
                                     name='type'
                                     onChange={handleInputChange}    
                                 />
@@ -243,7 +232,7 @@ export const Dashboard = (props) =>{
                                 variant="outlined" 
                                 fullWidth 
                                 defaultValue={props.info? selectedCar.year:''} 
-                                disabled={props.info? true:false} 
+                                disabled={props.info} 
                                 name='year'
                                 onChange={handleInputChange}    
                             />
@@ -254,7 +243,7 @@ export const Dashboard = (props) =>{
                                     variant="outlined" 
                                     fullWidth 
                                     defaultValue={props.info? selectedCar.price:''} 
-                                    disabled={props.info? true:false} 
+                                    disabled={props.info} 
                                     name='price'
                                     onChange={handleInputChange}    
                                 />
@@ -276,7 +265,7 @@ export const Dashboard = (props) =>{
                                     variant="outlined" 
                                     fullWidth 
                                     defaultValue={props.info? selectedCar.model:''} 
-                                    disabled={props.info? true:false} 
+                                    disabled={props.info} 
                                     name='model'
                                     onChange={handleInputChange}    
                                 />
@@ -287,7 +276,7 @@ export const Dashboard = (props) =>{
                                     variant="outlined" 
                                     fullWidth 
                                     defaultValue={props.info? selectedCar.fuel:''} 
-                                    disabled={props.info? true:false} 
+                                    disabled={props.info} 
                                     name='fuel'
                                     onChange={handleInputChange}    
                                 />
@@ -298,7 +287,7 @@ export const Dashboard = (props) =>{
                                     variant="outlined" 
                                     fullWidth 
                                     defaultValue={props.info? selectedCar.odometer:''} 
-                                    disabled={props.info? true:false} 
+                                    disabled={props.info} 
                                     name='odometer'
                                     onChange={handleInputChange}    
                                 />
@@ -309,7 +298,7 @@ export const Dashboard = (props) =>{
                                     variant="outlined" 
                                     fullWidth 
                                     defaultValue={props.info? selectedCar.transmission:''} 
-                                    disabled={props.info? true:false} 
+                                    disabled={props.info} 
                                     name='transmission'
                                     onChange={handleInputChange}    
                                 />
@@ -320,7 +309,7 @@ export const Dashboard = (props) =>{
                                     variant="outlined" 
                                     fullWidth 
                                     defaultValue={props.info? selectedCar.cylinders:''} 
-                                    disabled={props.info? true:false} 
+                                    disabled={props.info} 
                                     name='cylinders'
                                     onChange={handleInputChange}    
                                 />
@@ -332,11 +321,10 @@ export const Dashboard = (props) =>{
                             <Button size='medium' variant='contained'
                             color='primary' sx={{m:'15px', width:'90px'}}
                             onClick={()=>{
-                                addCar();
-                                props.handleModal(false);
+                                modalAction();
                             }}
                             >
-                                {props.info ? "Edit": "Add"}
+                                {props.info ? "Edit": "Save"}
                             </Button>
                         </Box>
                         <Box>
