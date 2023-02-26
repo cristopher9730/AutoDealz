@@ -9,7 +9,9 @@ import {
     CircularProgress,
     Box,
     Modal,
-    TextField
+    TextField,
+    Link,
+    InputAdornment
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
@@ -74,7 +76,7 @@ export const Dashboard = (props) =>{
                 type: '',
                 year: ''
               })
-            }      
+        }      
         loadPage();
     },[]);
 
@@ -95,6 +97,14 @@ export const Dashboard = (props) =>{
           [name]: value
         }));
       };
+
+      const deleteCar = (carId) => {
+        fetch(`http://localhost:8080/api/cars/deleteCar?carId=${carId}`)
+        .then(() => {
+            loadPage();
+            props.handleModal(false);
+        }); 
+      }
 
       const modalAction = () => {
         if(!props.info){
@@ -149,19 +159,21 @@ export const Dashboard = (props) =>{
                             </Box>
                         </CardContent>
                             <CardActions sx={{justifyContent:'center'}}>
+                                <Box display={'flex'} width={'55%'} justifyContent={'space-evenly'}>
                                     <Button size='small' variant='contained'
                                     onClick={() => {
                                         setSelectedCar(car);
                                         props.handleInfo(true);
                                         props.handleModal(true);
                                     }}
-                                    disabled={car.sold} color='primary'><InfoIcon/></Button>
-                                    <Button size='small' variant='contained' 
+                                    color='primary'><InfoIcon/></Button>
+                                    {!car.sold && <Button size='small' variant='contained' 
                                     onClick={() => {
                                         setSelectedCar(car);
                                         //markAsSold();
                                     }}
-                                    color='primary'><AttachMoneyIcon/></Button>
+                                    color='primary'><AttachMoneyIcon/></Button>}
+                                </Box>
                             </CardActions>
                         </Card>
                     </Grid>
@@ -245,7 +257,11 @@ export const Dashboard = (props) =>{
                                     defaultValue={props.info? selectedCar.price:''} 
                                     disabled={props.info} 
                                     name='price'
-                                    onChange={handleInputChange}    
+                                    onChange={handleInputChange}
+                                    type='number' 
+                                    InputProps={{
+                                        startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                                    }} 
                                 />
                             </Box>
                             <Box sx={{mb:2}}>
@@ -318,28 +334,30 @@ export const Dashboard = (props) =>{
                     </Grid>
                     <Box sx={flex}>
                         <Box>
-                            <Button size='medium' variant='contained'
+                            {!selectedCar.sold && <Button size='medium' variant='contained'
                             color='primary' sx={{m:'15px', width:'90px'}}
                             onClick={()=>{
                                 modalAction();
                             }}
                             >
                                 {props.info ? "Edit": "Save"}
-                            </Button>
+                            </Button>}
                         </Box>
                         <Box>
                             <Button size='medium' variant='contained'
                             color='primary' sx={{m:'15px', width:'90px'}}
                             onClick = {()=>props.handleModal(false)}
                             >
-                                Cancel
+                                Close
                             </Button>
                         </Box>
+                    </Box>
+                    <Box display={'flex'} justifyContent={'center'}>
+                        {props.info && <Link sx={{cursor:'pointer'}} onClick={()=>{deleteCar(selectedCar.id)}} >Delete Car</Link>}
                     </Box>
                 </Box>
             </Box>
         </Modal>
-
         </>
     )
 }
