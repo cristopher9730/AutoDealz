@@ -98,6 +98,11 @@ export const Dashboard = (props) =>{
         }));
       };
 
+      const markAsSold = (car) =>{
+        car.sold = true;
+        submit(car);
+      }
+
       const deleteCar = (carId) => {
         fetch(`http://localhost:8080/api/cars/deleteCar?carId=${carId}`)
         .then(() => {
@@ -106,17 +111,21 @@ export const Dashboard = (props) =>{
         }); 
       }
 
-      const modalAction = () => {
-        if(!props.info){
-            fetch("http://localhost:8080/api/cars/submitCar",
+      const submit = (car) =>{
+        fetch("http://localhost:8080/api/cars/submitCar",
             {
                 method: "POST",
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(selectedCar)
+                body: JSON.stringify(car)
             }).then(() => {
                 loadPage();
                 props.handleModal(false);
             }); 
+      }
+
+      const modalAction = () => {
+        if(!props.info){
+            submit(selectedCar);
         }
         else{
             props.handleInfo(false);
@@ -169,8 +178,7 @@ export const Dashboard = (props) =>{
                                     color='primary'><InfoIcon/></Button>
                                     {!car.sold && <Button size='small' variant='contained' 
                                     onClick={() => {
-                                        setSelectedCar(car);
-                                        //markAsSold();
+                                        markAsSold(car);
                                     }}
                                     color='primary'><AttachMoneyIcon/></Button>}
                                 </Box>
