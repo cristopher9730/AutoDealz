@@ -376,19 +376,33 @@ export const Dashboard = (props) =>{
                                     defaultValue={props.info? selectedCar.odometer:''} 
                                     disabled={props.info} 
                                     name='odometer'
+                                    type='number'
                                     onChange={handleInputChange}    
                                 />
                             </Box>
                             <Box sx={{mb:2}}>
-                                <TextField 
-                                    label="Transmission" 
-                                    variant="outlined" 
-                                    fullWidth 
-                                    defaultValue={props.info? selectedCar.transmission:''} 
-                                    disabled={props.info} 
-                                    name='transmission'
-                                    onChange={handleInputChange}    
-                                />
+
+                                <FormControl sx={{ m: 0, width:'100%' }}>
+                                    <InputLabel id="selectTransmission">Transmission</InputLabel>
+                                    <Select
+                                        labelId="selectTransmission"
+                                        value={selectedCar.transmission}
+                                        onChange={handleInputChange}
+                                        label="Transmission"
+                                        name='transmission'
+                                        disabled={props.info} 
+                                        >                                      
+                                        
+                                        <MenuItem value='Manual'>
+                                            <em>Manual</em>
+                                        </MenuItem>
+                                        <MenuItem value='Automatic'>
+                                            <em>Automatic</em>
+                                        </MenuItem>  
+                                        
+                                    </Select>
+                                </FormControl>
+
                             </Box>
                             <Box sx={{mb:2}}>
                                 <TextField 
@@ -398,6 +412,7 @@ export const Dashboard = (props) =>{
                                     defaultValue={props.info? selectedCar.cylinders:''} 
                                     disabled={props.info} 
                                     name='cylinders'
+                                    type='number'
                                     onChange={handleInputChange}    
                                 />
                             </Box>
