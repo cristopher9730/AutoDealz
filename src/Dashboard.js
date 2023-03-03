@@ -16,7 +16,6 @@ import {
 import { useEffect, useState } from "react";
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import InfoIcon from '@mui/icons-material/Info';
-
 const style = {
     position: 'absolute',
     top: '50%',
@@ -37,6 +36,10 @@ const flex = {
     alignItems: 'center',
     justifyContent: 'center'
 }
+
+const API_BASE_URL = 'https://componentes-spring.azurewebsites.net';
+const CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/proyectoiteracion/image/upload';
+const CLOUDINARY_UPLOAD_PRESET = 'photo_connection';
 
 export const Dashboard = (props) =>{
 
@@ -82,7 +85,7 @@ export const Dashboard = (props) =>{
 
     const loadPage = () => {
         setIsLoading(true);
-        fetch('https://componentes-spring.azurewebsites.net/api/cars/getCars')
+        fetch(`${API_BASE_URL}/api/cars/getCars`)
         .then(response => response.json())
         .then(data => {
             setCarArray(data);
@@ -104,7 +107,7 @@ export const Dashboard = (props) =>{
       }
 
       const deleteCar = (carId) => {
-        fetch(`http://localhost:8080/api/cars/deleteCar?carId=${carId}`)
+        fetch(`${API_BASE_URL}/api/cars/deleteCar?carId=${carId}`)
         .then(() => {
             loadPage();
             props.handleModal(false);
@@ -112,16 +115,40 @@ export const Dashboard = (props) =>{
       }
 
       const submit = (car) =>{
-        fetch("http://localhost:8080/api/cars/submitCar",
+        fetch(`${API_BASE_URL}/api/cars/submitCar`,
             {
-                method: "POST",
+                method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(car)
             }).then(() => {
                 loadPage();
                 props.handleModal(false);
-            }); 
+            });
       }
+
+      const uploadImage = (e) => {
+        const file = e.target.files[0];
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+
+        fetch(CLOUDINARY_URL, 
+            {
+                method: 'POST',
+                body: formData
+            }
+        )
+        .then(response => response.json())
+        .then((data) => {
+            const picture = data.secure_url;
+            if (picture !== '') {
+                setSelectedCar((prevState) => ({
+                    ...prevState,
+                    picture: picture
+                }));
+            }
+        })
+    }
 
       const modalAction = () => {
         if(!props.info){
@@ -130,7 +157,7 @@ export const Dashboard = (props) =>{
         else{
             props.handleInfo(false);
         }
-      }
+    }
 
     return (
         <>
@@ -272,15 +299,6 @@ export const Dashboard = (props) =>{
                                     }} 
                                 />
                             </Box>
-                            <Box sx={{mb:2}}>
-                                <TextField 
-                                    label="Picture" 
-                                    variant="outlined" 
-                                    fullWidth
-                                    name='picture'
-                                    onChange={handleInputChange}    
-                                />
-                            </Box>
                         </Grid>
                         <Grid xs={8}>
                             <Box sx={{mb:2}}>
@@ -340,6 +358,20 @@ export const Dashboard = (props) =>{
                             </Box>
                         </Grid>
                     </Grid>
+                    <Box sx={{mb:2}}>
+                                <Box width={'100px'}>
+                                    {selectedCar.picture != '' && <img src={selectedCar.picture} />}
+                                </Box>    
+                                <Button variant='contained' component='label'>
+                                    Upload Image
+                                    <input 
+                                        type={'file'} 
+                                        hidden 
+                                        onChange={uploadImage}
+                                        accept='.jpg,.png,.jpeg,.webp'
+                                    />
+                                </Button>
+                    </Box>
                     <Box sx={flex}>
                         <Box>
                             {!selectedCar.sold && <Button size='medium' variant='contained'
