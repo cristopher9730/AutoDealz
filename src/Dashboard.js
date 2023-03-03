@@ -25,7 +25,7 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: '50%',
+    width: '80%',
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
@@ -42,8 +42,6 @@ const flex = {
 }
 
 const API_BASE_URL = 'https://componentes-spring.azurewebsites.net';
-const CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/proyectoiteracion/image/upload';
-const CLOUDINARY_UPLOAD_PRESET = 'photo_connection';
 
 export const Dashboard = (props) =>{
 
@@ -134,9 +132,9 @@ export const Dashboard = (props) =>{
         const file = e.target.files[0];
         const formData = new FormData();
         formData.append('file', file);
-        formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+        formData.append('upload_preset', process.env.CLOUDINARY_UPLOAD_PRESET);
 
-        fetch(CLOUDINARY_URL, 
+        fetch(process.env.CLOUDINARY_URL,
             {
                 method: 'POST',
                 body: formData
@@ -237,11 +235,9 @@ export const Dashboard = (props) =>{
 
         <Modal
         open={props.openModal}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
         >
             <Box sx={style}>
-                <Box sx={{m:4, width:'90%'}}>
+                <Box sx={{m:3}}>
                     <Box sx={{mb:2}}>
                         <Typography id="modal-modal-title" variant="h5" textAlign={'center'}>
                             {props.info ? "Information": "Add Car"}
@@ -254,7 +250,7 @@ export const Dashboard = (props) =>{
                     justifyContent="space-evenly"
                     sx={{width:'100%', m:0}}
                     >
-                        <Grid xs={8}>
+                        <Grid xs={4}>
                             <Box sx={{mb:2}}>
                                 <TextField 
                                     label="Brand" 
@@ -289,8 +285,6 @@ export const Dashboard = (props) =>{
                                         name='type'
                                         disabled={props.info} 
                                         >
-                                        
-                                        
                                         <MenuItem value='Sedan'>
                                             <em>Sedan</em>
                                         </MenuItem>
@@ -312,29 +306,6 @@ export const Dashboard = (props) =>{
 
                             </Box>
                             <Box sx={{mb:2}}>
-                                
-                                <FormControl sx={{ m: 0, width:'100%' }}>
-                                    <InputLabel id="selectYear">Year</InputLabel>
-                                    <Select
-                                        labelId="selectYear"
-                                        value={selectedCar.year}
-                                        onChange={handleInputChange}
-                                        label="Year"
-                                        name='year'
-                                        disabled={props.info} 
-                                        >
-                                        
-                                        {generateYearOptions().map((year) => (
-                                        <MenuItem value={year}>
-                                            <em>{year}</em>
-                                        </MenuItem> 
-                                        ))}
-                                        
-                                    </Select>
-                                </FormControl>
-                                
-                            </Box>
-                            <Box sx={{mb:2}}>
                                 <TextField 
                                     label="Price" 
                                     variant="outlined" 
@@ -350,7 +321,7 @@ export const Dashboard = (props) =>{
                                 />
                             </Box>
                         </Grid>
-                        <Grid xs={8}>
+                        <Grid xs={4}>
                             <Box sx={{mb:2}}>
                                 <TextField 
                                     label="Model" 
@@ -422,6 +393,31 @@ export const Dashboard = (props) =>{
                                 </FormControl>
 
                             </Box>
+                        </Grid>
+                        <Grid xs={4}>
+                        <Box sx={{mb:2}}>
+                                
+                                <FormControl sx={{ m: 0, width:'100%' }}>
+                                    <InputLabel id="selectYear">Year</InputLabel>
+                                    <Select
+                                        labelId="selectYear"
+                                        value={selectedCar.year}
+                                        onChange={handleInputChange}
+                                        label="Year"
+                                        name='year'
+                                        disabled={props.info} 
+                                        >
+                                        
+                                        {generateYearOptions().map((year) => (
+                                        <MenuItem value={year}>
+                                            <em>{year}</em>
+                                        </MenuItem> 
+                                        ))}
+                                        
+                                    </Select>
+                                </FormControl>
+                            
+                            </Box>
                             <Box sx={{mb:2}}>
                                 <TextField 
                                     label="Cylinders" 
@@ -434,22 +430,66 @@ export const Dashboard = (props) =>{
                                     onChange={handleInputChange}    
                                 />
                             </Box>
+                            <Box sx={{mb:2}}>
+
+                                <FormControl sx={{ m: 0, width:'100%' }}>
+                                    <InputLabel id="selectType">Type</InputLabel>
+                                    <Select
+                                        labelId="selectType"
+                                        value={selectedCar.type}
+                                        onChange={handleInputChange}
+                                        label="Type"
+                                        name='type'
+                                        disabled={props.info} 
+                                        >
+                                        
+                                        
+                                        <MenuItem value='Sedan'>
+                                            <em>Sedan</em>
+                                        </MenuItem>
+                                        <MenuItem value='Hatchback'>
+                                            <em>Hatchback</em>
+                                        </MenuItem>  
+                                        <MenuItem value='SUV'>
+                                            <em>SUV</em>
+                                        </MenuItem> 
+                                        <MenuItem value='Coupe'>
+                                            <em>Coupe</em>
+                                        </MenuItem>
+                                        <MenuItem value='Pickup'>
+                                            <em>Pickup</em>
+                                        </MenuItem>  
+                                        
+                                    </Select>
+                                </FormControl>
+
+                            </Box>
+                        </Grid>
+                        <Grid sx={{display:'flex', flexDirection:'column'}}>
+                                        <Box width={'250px'} height={'200px'} sx={{mb:1}}>
+                                            {selectedCar.picture != '' && <img 
+                                            src={selectedCar.picture} 
+                                            style={{
+                                                objectFit:'cover',
+                                                objectPosition:'center', 
+                                                width:'100%',
+                                                height:'100%'
+                                            }}
+                                            />}
+                                        </Box> 
+                                        <Box display={'flex'} justifyContent='center'>
+                                            <Button variant='contained' component='label' sx={{margin:'0 auto'}}>
+                                                Upload Image
+                                                <input 
+                                                    type={'file'} 
+                                                    hidden 
+                                                    onChange={uploadImage}
+                                                    accept='.jpg,.png,.jpeg,.webp'
+                                                />
+                                            </Button>
+                                        </Box>   
                         </Grid>
                     </Grid>
-                    <Box sx={{mb:2}}>
-                                <Box width={'100px'}>
-                                    {selectedCar.picture != '' && <img src={selectedCar.picture} />}
-                                </Box>    
-                                <Button variant='contained' component='label'>
-                                    Upload Image
-                                    <input 
-                                        type={'file'} 
-                                        hidden 
-                                        onChange={uploadImage}
-                                        accept='.jpg,.png,.jpeg,.webp'
-                                    />
-                                </Button>
-                    </Box>
                     <Box sx={flex}>
                         <Box>
                             {!selectedCar.sold && <Button size='medium' variant='contained'
