@@ -67,7 +67,7 @@ const App = () => {
       <AppBar color='primary' position='fixed' sx={flexAppBar}>
         <Box sx={flex}>
           <DirectionsCarIcon sx={icon}/>
-          <Typography variant="h1" sx={title}>Cars</Typography>
+          <Typography variant="h1" sx={title}>AutoDealz</Typography>
         </Box>
         <Box>
         <Button onClick = {()=>{

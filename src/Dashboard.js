@@ -11,7 +11,11 @@ import {
     Modal,
     TextField,
     Link,
-    InputAdornment
+    InputAdornment,
+    Select,
+    FormControl,
+    MenuItem,
+    InputLabel    
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
@@ -159,6 +163,17 @@ export const Dashboard = (props) =>{
         }
     }
 
+      const generateYearOptions = () => {
+        const currentYear = new Date().getFullYear();
+        const years = [];
+    
+        for (let year = currentYear; year >= currentYear - 60; year--) {
+          years.push(year);
+        }
+    
+        return years;
+      };
+
     return (
         <>
         {!isLoading ? <Grid sx={dashBoard} container>
@@ -263,26 +278,61 @@ export const Dashboard = (props) =>{
                                 />
                             </Box>
                             <Box sx={{mb:2}}>
-                                <TextField 
-                                    label="Type" 
-                                    variant="outlined" 
-                                    fullWidth 
-                                    defaultValue={props.info? selectedCar.type:''} 
-                                    disabled={props.info} 
-                                    name='type'
-                                    onChange={handleInputChange}    
-                                />
+
+                                <FormControl sx={{ m: 0, width:'100%' }}>
+                                    <InputLabel id="selectType">Type</InputLabel>
+                                    <Select
+                                        labelId="selectType"
+                                        value={selectedCar.type}
+                                        onChange={handleInputChange}
+                                        label="Type"
+                                        name='type'
+                                        disabled={props.info} 
+                                        >
+                                        
+                                        
+                                        <MenuItem value='Sedan'>
+                                            <em>Sedan</em>
+                                        </MenuItem>
+                                        <MenuItem value='Hatchback'>
+                                            <em>Hatchback</em>
+                                        </MenuItem>  
+                                        <MenuItem value='SUV'>
+                                            <em>SUV</em>
+                                        </MenuItem> 
+                                        <MenuItem value='Coupe'>
+                                            <em>Coupe</em>
+                                        </MenuItem>
+                                        <MenuItem value='Pickup'>
+                                            <em>Pickup</em>
+                                        </MenuItem>  
+                                        
+                                    </Select>
+                                </FormControl>
+
                             </Box>
                             <Box sx={{mb:2}}>
-                                <TextField 
-                                label="Year" 
-                                variant="outlined" 
-                                fullWidth 
-                                defaultValue={props.info? selectedCar.year:''} 
-                                disabled={props.info} 
-                                name='year'
-                                onChange={handleInputChange}    
-                            />
+                                
+                                <FormControl sx={{ m: 0, width:'100%' }}>
+                                    <InputLabel id="selectYear">Year</InputLabel>
+                                    <Select
+                                        labelId="selectYear"
+                                        value={selectedCar.year}
+                                        onChange={handleInputChange}
+                                        label="Year"
+                                        name='year'
+                                        disabled={props.info} 
+                                        >
+                                        
+                                        {generateYearOptions().map((year) => (
+                                        <MenuItem value={year}>
+                                            <em>{year}</em>
+                                        </MenuItem> 
+                                        ))}
+                                        
+                                    </Select>
+                                </FormControl>
+                                
                             </Box>
                             <Box sx={{mb:2}}>
                                 <TextField 
@@ -313,15 +363,28 @@ export const Dashboard = (props) =>{
                                 />
                             </Box>
                             <Box sx={{mb:2}}>
-                                <TextField 
-                                    label="Fuel" 
-                                    variant="outlined" 
-                                    fullWidth 
-                                    defaultValue={props.info? selectedCar.fuel:''} 
-                                    disabled={props.info} 
-                                    name='fuel'
-                                    onChange={handleInputChange}    
-                                />
+
+                                <FormControl sx={{ m: 0, width:'100%' }}>
+                                    <InputLabel id="selectFuel">Fuel</InputLabel>
+                                    <Select
+                                        labelId="selectFuel"
+                                        value={selectedCar.fuel}
+                                        onChange={handleInputChange}
+                                        label="Fuel"
+                                        name='fuel'
+                                        disabled={props.info} 
+                                        >                                      
+                                        
+                                        <MenuItem value='Gas'>
+                                            <em>Gas</em>
+                                        </MenuItem>
+                                        <MenuItem value='Diesel'>
+                                            <em>Diesel</em>
+                                        </MenuItem>  
+                                        
+                                    </Select>
+                                </FormControl>
+
                             </Box>
                             <Box sx={{mb:2}}>
                                 <TextField 
@@ -331,19 +394,33 @@ export const Dashboard = (props) =>{
                                     defaultValue={props.info? selectedCar.odometer:''} 
                                     disabled={props.info} 
                                     name='odometer'
+                                    type='number'
                                     onChange={handleInputChange}    
                                 />
                             </Box>
                             <Box sx={{mb:2}}>
-                                <TextField 
-                                    label="Transmission" 
-                                    variant="outlined" 
-                                    fullWidth 
-                                    defaultValue={props.info? selectedCar.transmission:''} 
-                                    disabled={props.info} 
-                                    name='transmission'
-                                    onChange={handleInputChange}    
-                                />
+
+                                <FormControl sx={{ m: 0, width:'100%' }}>
+                                    <InputLabel id="selectTransmission">Transmission</InputLabel>
+                                    <Select
+                                        labelId="selectTransmission"
+                                        value={selectedCar.transmission}
+                                        onChange={handleInputChange}
+                                        label="Transmission"
+                                        name='transmission'
+                                        disabled={props.info} 
+                                        >                                      
+                                        
+                                        <MenuItem value='Manual'>
+                                            <em>Manual</em>
+                                        </MenuItem>
+                                        <MenuItem value='Automatic'>
+                                            <em>Automatic</em>
+                                        </MenuItem>  
+                                        
+                                    </Select>
+                                </FormControl>
+
                             </Box>
                             <Box sx={{mb:2}}>
                                 <TextField 
@@ -353,6 +430,7 @@ export const Dashboard = (props) =>{
                                     defaultValue={props.info? selectedCar.cylinders:''} 
                                     disabled={props.info} 
                                     name='cylinders'
+                                    type='number'
                                     onChange={handleInputChange}    
                                 />
                             </Box>
