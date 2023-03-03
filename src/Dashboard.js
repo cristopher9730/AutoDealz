@@ -132,9 +132,9 @@ export const Dashboard = (props) =>{
         const file = e.target.files[0];
         const formData = new FormData();
         formData.append('file', file);
-        formData.append('upload_preset', process.env.CLOUDINARY_UPLOAD_PRESET);
+        formData.append('upload_preset', process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET);
 
-        fetch(process.env.CLOUDINARY_URL,
+        fetch(process.env.REACT_APP_CLOUDINARY_URL,
             {
                 method: 'POST',
                 body: formData
