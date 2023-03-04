@@ -60,6 +60,8 @@ export const Dashboard = (props) =>{
     const [carArray, setCarArray] = useState([]); 
     const [isLoading, setIsLoading] = useState(false);
     const [selectedCar, setSelectedCar] = useState({});
+    const [file, setFile] = useState();
+    const [previewUrl, setPreviewUrl] = useState();
 
     const numberWithCommas = (number) =>{
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -84,6 +86,26 @@ export const Dashboard = (props) =>{
         }      
         loadPage();
     },[]);
+
+    useEffect(() => {
+        if (!file) {
+          return;
+        }
+        const fileReader = new FileReader();
+        fileReader.onload = () => {
+          setPreviewUrl(fileReader.result);
+        };
+        fileReader.readAsDataURL(file);
+      }, [file]);
+
+    
+      const fileUpload = event => {
+        let pickedFile;
+        if (event.target.files && event.target.files.length === 1) {
+          pickedFile = event.target.files[0];
+          setFile(pickedFile);
+        }
+      };
 
     const loadPage = () => {
         setIsLoading(true);
@@ -117,40 +139,19 @@ export const Dashboard = (props) =>{
       }
 
       const submit = (car) =>{
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('car', JSON.stringify(car));
         fetch(`${API_BASE_URL}/api/cars/submitCar`,
             {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(car)
+                headers: {},
+                body: formData
             }).then(() => {
                 loadPage();
                 props.handleModal(false);
             });
       }
-
-      const uploadImage = (e) => {
-        const file = e.target.files[0];
-        const formData = new FormData();
-        formData.append('file', file);
-        formData.append('upload_preset', process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET);
-
-        fetch(process.env.REACT_APP_CLOUDINARY_URL,
-            {
-                method: 'POST',
-                body: formData
-            }
-        )
-        .then(response => response.json())
-        .then((data) => {
-            const picture = data.secure_url;
-            if (picture !== '') {
-                setSelectedCar((prevState) => ({
-                    ...prevState,
-                    picture: picture
-                }));
-            }
-        })
-    }
 
       const modalAction = () => {
         if(!props.info){
@@ -467,8 +468,8 @@ export const Dashboard = (props) =>{
                         </Grid>
                         <Grid sx={{display:'flex', flexDirection:'column'}}>
                                         <Box width={'250px'} height={'200px'} sx={{mb:1}}>
-                                            {selectedCar.picture != '' && <img 
-                                            src={selectedCar.picture} 
+                                            {<img 
+                                            src={previewUrl ? previewUrl:selectedCar.picture !=''?selectedCar.picture:'https://www.salonlfc.com/wp-content/uploads/2018/01/image-not-found-1-scaled.png'} 
                                             style={{
                                                 objectFit:'cover',
                                                 objectPosition:'center', 
@@ -483,7 +484,7 @@ export const Dashboard = (props) =>{
                                                 <input 
                                                     type={'file'} 
                                                     hidden 
-                                                    onChange={uploadImage}
+                                                    onChange={fileUpload}
                                                     accept='.jpg,.png,.jpeg,.webp'
                                                 />
                                             </Button>
