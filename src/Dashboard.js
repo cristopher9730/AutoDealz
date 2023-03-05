@@ -25,7 +25,6 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: '80%',
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
@@ -70,23 +69,27 @@ export const Dashboard = (props) =>{
 
     useEffect(()=>{
         if(!props.info){
-            setSelectedCar({
-                brand: '',
-                color: '',
-                cylinders: '',
-                fuel:'',
-                model:'',
-                odometer:'',
-                picture: '',
-                price: '',
-                sold: false,
-                transmission:'',
-                type: '',
-                year: ''
-              })
+            restartCar();
         }      
         loadPage();
     },[]);
+
+    const restartCar = () => {
+        setSelectedCar({
+            brand: '',
+            color: '',
+            cylinders: '',
+            fuel:'',
+            model:'',
+            odometer:'',
+            picture: '',
+            price: '',
+            sold: false,
+            transmission:'',
+            type: '',
+            year: ''
+        })
+    }
 
     useEffect(() => {
         if (!file) {
@@ -480,7 +483,7 @@ export const Dashboard = (props) =>{
                                             />}
                                         </Box> 
                                         <Box display={'flex'} justifyContent='center'>
-                                            <Button variant='contained' component='label' sx={{margin:'0 auto'}}>
+                                            {!props.info? (<Button variant='contained' component='label' sx={{margin:'0 auto'}}>
                                                 Upload Image
                                                 <input 
                                                     type={'file'} 
@@ -488,7 +491,7 @@ export const Dashboard = (props) =>{
                                                     onChange={fileUpload}
                                                     accept='.jpg,.png,.jpeg,.webp'
                                                 />
-                                            </Button>
+                                            </Button>):''}
                                         </Box>   
                         </Grid>
                     </Grid>
@@ -506,7 +509,10 @@ export const Dashboard = (props) =>{
                         <Box>
                             <Button size='medium' variant='contained'
                             color='primary' sx={{m:'15px', width:'90px'}}
-                            onClick = {()=>props.handleModal(false)}
+                            onClick = {()=> {
+                                props.handleModal(false);
+                                restartCar();
+                            }}
                             >
                                 Close
                             </Button>
