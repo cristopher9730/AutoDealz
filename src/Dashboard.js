@@ -28,10 +28,7 @@ const style = {
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center'
+    width:'70%'
 };
 
 const flex = {
@@ -250,12 +247,11 @@ export const Dashboard = (props) =>{
                     </Box>
                     <Grid 
                     container spacing={2} 
-                    columns={17}
                     direction="row"
                     justifyContent="space-evenly"
                     sx={{width:'100%', m:0}}
                     >
-                        <Grid xs={4}>
+                        <Grid item lg={3} md={6} sm={10} xs={12}>
                             <Box sx={{mb:2}}>
                                 <TextField 
                                     label="Brand" 
@@ -326,7 +322,7 @@ export const Dashboard = (props) =>{
                                 />
                             </Box>
                         </Grid>
-                        <Grid xs={4}>
+                        <Grid item lg={3} md={6} sm={10} xs={12}>
                             <Box sx={{mb:2}}>
                                 <TextField 
                                     label="Model" 
@@ -399,7 +395,7 @@ export const Dashboard = (props) =>{
 
                             </Box>
                         </Grid>
-                        <Grid xs={4}>
+                        <Grid item lg={3} md={6} sm={10} xs={12}>
                         <Box sx={{mb:2}}>
                                 
                                 <FormControl sx={{ m: 0, width:'100%' }}>
@@ -470,8 +466,8 @@ export const Dashboard = (props) =>{
 
                             </Box>
                         </Grid>
-                        <Grid sx={{display:'flex', flexDirection:'column'}}>
-                                        <Box width={'250px'} height={'200px'} sx={{mb:1}}>
+                        <Grid item lg={3} md={6} sm={10} xs={12} sx={{display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}}>
+                                        <Box width={'100%'} height={'70%'} sx={{mb:1}} >
                                             {<img 
                                             src={previewUrl ? previewUrl:selectedCar.picture !=''?selectedCar.picture:'https://www.salonlfc.com/wp-content/uploads/2018/01/image-not-found-1-scaled.png'} 
                                             style={{
