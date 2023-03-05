@@ -41,7 +41,8 @@ const flex = {
     justifyContent: 'center'
 }
 
-const API_BASE_URL = 'https://componentes-spring.azurewebsites.net';
+//const API_BASE_URL = 'https://componentes-spring.azurewebsites.net';
+const API_BASE_URL = 'http://localhost:8080';
 
 export const Dashboard = (props) =>{
 
@@ -140,9 +141,9 @@ export const Dashboard = (props) =>{
 
       const submit = (car) =>{
         const formData = new FormData();
-        formData.append('file', file);
+        if(file) formData.append('file', file);               
         formData.append('car', JSON.stringify(car));
-        fetch(`${API_BASE_URL}/api/cars/submitCar`,
+        fetch(`${API_BASE_URL}${file?"/api/cars/updateCarMultipart":"/api/cars/updateCar"}`,
             {
                 method: 'POST',
                 headers: {},
@@ -241,7 +242,7 @@ export const Dashboard = (props) =>{
                 <Box sx={{m:3}}>
                     <Box sx={{mb:2}}>
                         <Typography id="modal-modal-title" variant="h5" textAlign={'center'}>
-                            {props.info ? "Information": "Add Car"}
+                            {props.info ? "Information": "Submit Car"}
                         </Typography>
                     </Box>
                     <Grid 
