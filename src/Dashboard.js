@@ -145,10 +145,14 @@ export const Dashboard = (props) =>{
       }
 
       const submit = (car) =>{
+        let api = '/api/cars/updateCar';
         const formData = new FormData();
-        if(file) formData.append('file', file);               
+        if(file){
+            formData.append('file', file);
+            api = '/api/cars/updateCarMultipart';
+        }              
         formData.append('car', JSON.stringify(car));
-        fetch(`${API_BASE_URL}${file?"/api/cars/updateCarMultipart":"/api/cars/updateCar"}`,
+        fetch(`${API_BASE_URL}${api}`,
             {
                 method: 'POST',
                 headers: {},
