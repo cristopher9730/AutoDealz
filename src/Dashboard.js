@@ -25,16 +25,6 @@ import {
 import { useEffect, useState } from "react";
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import InfoIcon from '@mui/icons-material/Info';
-const style = {
-    //position: 'absolute',
-    //top: '50%',
-    //left: '50%',
-    //transform: 'translate(-50%, -50%)',
-    //bgcolor: 'background.paper',
-    //border: '2px solid #000',
-    //boxShadow: 24,
-    //width:'70%'
-};
 
 const flex = {
     display: 'flex',
@@ -91,6 +81,7 @@ export const Dashboard = (props) =>{
             type: '',
             year: ''
         })
+        setPreviewUrl(null)
     }
 
     useEffect(() => {
@@ -250,7 +241,10 @@ export const Dashboard = (props) =>{
             scroll={'paper'}
             aria-labelledby="scroll-dialog-title"
             aria-describedby="scroll-dialog-description"
-            
+            sx={{
+                '& .css-1t1j96h-MuiPaper-root-MuiDialog-paper':{
+                maxWidth:'70%'
+            }}}
         >
             <DialogTitle id="scroll-dialog-title">
                 <Box >
@@ -263,7 +257,7 @@ export const Dashboard = (props) =>{
             <DialogContentText
                 id="scroll-dialog-description"
             >
-                <Box sx={style}>
+                <Box>
                 <Box sx={{m:3}}>
                     
                     <Grid 
@@ -487,7 +481,7 @@ export const Dashboard = (props) =>{
 
                             </Box>
                         </Grid>
-                        <Grid item lg={3} md={6} sm={10} xs={12} sx={{display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}}>
+                        <Grid item lg={3} md={6} sm={10} xs={12} sx={{display:'flex', flexDirection:'column', alignItems:'center'}}>
                                         <Box width={'100%'} height={'70%'} sx={{mb:1}} >
                                             {<img 
                                             src={previewUrl ? previewUrl:selectedCar.picture !=''?selectedCar.picture:'https://www.salonlfc.com/wp-content/uploads/2018/01/image-not-found-1-scaled.png'} 
@@ -546,294 +540,6 @@ export const Dashboard = (props) =>{
             </DialogActions>
         </Dialog>
 
-
-
-
-        <Modal
-        //open={props.openModal}
-        >
-            <Box sx={style}>
-                <Box sx={{m:3}}>
-                    <Box sx={{mb:2}}>
-                        <Typography id="modal-modal-title" variant="h5" textAlign={'center'}>
-                            {props.info ? "Information": "Submit Car"}
-                        </Typography>
-                    </Box>
-                    <Grid 
-                    container spacing={2} 
-                    direction="row"
-                    justifyContent="space-evenly"
-                    sx={{width:'100%', m:0}}
-                    >
-                        <Grid item lg={3} md={6} sm={10} xs={12}>
-                            <Box sx={{mb:2}}>
-                                <TextField 
-                                    label="Brand" 
-                                    variant="outlined" 
-                                    fullWidth 
-                                    defaultValue={props.info? selectedCar.brand:''} 
-                                    disabled={props.info}
-                                    name='brand'
-                                    onChange={handleInputChange}
-                                />
-                            </Box>
-                            <Box sx={{mb:2}}>
-                                <TextField 
-                                    label="Color" 
-                                    variant="outlined" 
-                                    fullWidth 
-                                    defaultValue={props.info? selectedCar.color:''} 
-                                    disabled={props.info}
-                                    name='color'
-                                    onChange={handleInputChange}
-                                />
-                            </Box>
-                            <Box sx={{mb:2}}>
-
-                                <FormControl sx={{ m: 0, width:'100%' }}>
-                                    <InputLabel id="selectType">Type</InputLabel>
-                                    <Select
-                                        labelId="selectType"
-                                        value={selectedCar.type}
-                                        onChange={handleInputChange}
-                                        label="Type"
-                                        name='type'
-                                        disabled={props.info} 
-                                        >
-                                        <MenuItem value='Sedan'>
-                                            <em>Sedan</em>
-                                        </MenuItem>
-                                        <MenuItem value='Hatchback'>
-                                            <em>Hatchback</em>
-                                        </MenuItem>  
-                                        <MenuItem value='SUV'>
-                                            <em>SUV</em>
-                                        </MenuItem> 
-                                        <MenuItem value='Coupe'>
-                                            <em>Coupe</em>
-                                        </MenuItem>
-                                        <MenuItem value='Pickup'>
-                                            <em>Pickup</em>
-                                        </MenuItem>  
-                                        
-                                    </Select>
-                                </FormControl>
-
-                            </Box>
-                            <Box sx={{mb:2}}>
-                                <TextField 
-                                    label="Price" 
-                                    variant="outlined" 
-                                    fullWidth 
-                                    defaultValue={props.info? selectedCar.price:''} 
-                                    disabled={props.info} 
-                                    name='price'
-                                    onChange={handleInputChange}
-                                    type='number' 
-                                    InputProps={{
-                                        startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                                    }} 
-                                />
-                            </Box>
-                        </Grid>
-                        <Grid item lg={3} md={6} sm={10} xs={12}>
-                            <Box sx={{mb:2}}>
-                                <TextField 
-                                    label="Model" 
-                                    variant="outlined" 
-                                    fullWidth 
-                                    defaultValue={props.info? selectedCar.model:''} 
-                                    disabled={props.info} 
-                                    name='model'
-                                    onChange={handleInputChange}    
-                                />
-                            </Box>
-                            <Box sx={{mb:2}}>
-
-                                <FormControl sx={{ m: 0, width:'100%' }}>
-                                    <InputLabel id="selectFuel">Fuel</InputLabel>
-                                    <Select
-                                        labelId="selectFuel"
-                                        value={selectedCar.fuel}
-                                        onChange={handleInputChange}
-                                        label="Fuel"
-                                        name='fuel'
-                                        disabled={props.info} 
-                                        >                                      
-                                        
-                                        <MenuItem value='Gas'>
-                                            <em>Gas</em>
-                                        </MenuItem>
-                                        <MenuItem value='Diesel'>
-                                            <em>Diesel</em>
-                                        </MenuItem>  
-                                        
-                                    </Select>
-                                </FormControl>
-
-                            </Box>
-                            <Box sx={{mb:2}}>
-                                <TextField 
-                                    label="Odometer" 
-                                    variant="outlined" 
-                                    fullWidth 
-                                    defaultValue={props.info? selectedCar.odometer:''} 
-                                    disabled={props.info} 
-                                    name='odometer'
-                                    type='number'
-                                    onChange={handleInputChange}    
-                                />
-                            </Box>
-                            <Box sx={{mb:2}}>
-
-                                <FormControl sx={{ m: 0, width:'100%' }}>
-                                    <InputLabel id="selectTransmission">Transmission</InputLabel>
-                                    <Select
-                                        labelId="selectTransmission"
-                                        value={selectedCar.transmission}
-                                        onChange={handleInputChange}
-                                        label="Transmission"
-                                        name='transmission'
-                                        disabled={props.info} 
-                                        >                                      
-                                        
-                                        <MenuItem value='Manual'>
-                                            <em>Manual</em>
-                                        </MenuItem>
-                                        <MenuItem value='Automatic'>
-                                            <em>Automatic</em>
-                                        </MenuItem>  
-                                        
-                                    </Select>
-                                </FormControl>
-
-                            </Box>
-                        </Grid>
-                        <Grid item lg={3} md={6} sm={10} xs={12}>
-                        <Box sx={{mb:2}}>
-                                
-                                <FormControl sx={{ m: 0, width:'100%' }}>
-                                    <InputLabel id="selectYear">Year</InputLabel>
-                                    <Select
-                                        labelId="selectYear"
-                                        value={selectedCar.year}
-                                        onChange={handleInputChange}
-                                        label="Year"
-                                        name='year'
-                                        disabled={props.info} 
-                                        >
-                                        
-                                        {generateYearOptions().map((year) => (
-                                        <MenuItem value={year}>
-                                            <em>{year}</em>
-                                        </MenuItem> 
-                                        ))}
-                                        
-                                    </Select>
-                                </FormControl>
-                            
-                            </Box>
-                            <Box sx={{mb:2}}>
-                                <TextField 
-                                    label="Cylinders" 
-                                    variant="outlined" 
-                                    fullWidth 
-                                    defaultValue={props.info? selectedCar.cylinders:''} 
-                                    disabled={props.info} 
-                                    name='cylinders'
-                                    type='number'
-                                    onChange={handleInputChange}    
-                                />
-                            </Box>
-                            <Box sx={{mb:2}}>
-
-                                <FormControl sx={{ m: 0, width:'100%' }}>
-                                    <InputLabel id="selectType">Type</InputLabel>
-                                    <Select
-                                        labelId="selectType"
-                                        value={selectedCar.type}
-                                        onChange={handleInputChange}
-                                        label="Type"
-                                        name='type'
-                                        disabled={props.info} 
-                                        >
-                                        
-                                        
-                                        <MenuItem value='Sedan'>
-                                            <em>Sedan</em>
-                                        </MenuItem>
-                                        <MenuItem value='Hatchback'>
-                                            <em>Hatchback</em>
-                                        </MenuItem>  
-                                        <MenuItem value='SUV'>
-                                            <em>SUV</em>
-                                        </MenuItem> 
-                                        <MenuItem value='Coupe'>
-                                            <em>Coupe</em>
-                                        </MenuItem>
-                                        <MenuItem value='Pickup'>
-                                            <em>Pickup</em>
-                                        </MenuItem>  
-                                        
-                                    </Select>
-                                </FormControl>
-
-                            </Box>
-                        </Grid>
-                        <Grid item lg={3} md={6} sm={10} xs={12} sx={{display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}}>
-                                        <Box width={'100%'} height={'70%'} sx={{mb:1}} >
-                                            {<img 
-                                            src={previewUrl ? previewUrl:selectedCar.picture !=''?selectedCar.picture:'https://www.salonlfc.com/wp-content/uploads/2018/01/image-not-found-1-scaled.png'} 
-                                            style={{
-                                                objectFit:'cover',
-                                                objectPosition:'center', 
-                                                width:'100%',
-                                                height:'100%'
-                                            }}
-                                            />}
-                                        </Box> 
-                                        <Box display={'flex'} justifyContent='center'>
-                                            {!props.info? (<Button variant='contained' component='label' sx={{margin:'0 auto'}}>
-                                                Upload Image
-                                                <input 
-                                                    type={'file'} 
-                                                    hidden 
-                                                    onChange={fileUpload}
-                                                    accept='.jpg,.png,.jpeg,.webp'
-                                                />
-                                            </Button>):''}
-                                        </Box>   
-                        </Grid>
-                    </Grid>
-                    <Box sx={flex}>
-                        <Box>
-                            {!selectedCar.sold && <Button size='medium' variant='contained'
-                            color='primary' sx={{m:'15px', width:'90px'}}
-                            onClick={()=>{
-                                modalAction();
-                            }}
-                            >
-                                {props.info ? "Edit": "Save"}
-                            </Button>}
-                        </Box>
-                        <Box>
-                            <Button size='medium' variant='contained'
-                            color='primary' sx={{m:'15px', width:'90px'}}
-                            onClick = {()=> {
-                                props.handleModal(false);
-                                restartCar();
-                            }}
-                            >
-                                Close
-                            </Button>
-                        </Box>
-                    </Box>
-                    <Box display={'flex'} justifyContent={'center'}>
-                        {props.info && <Link sx={{cursor:'pointer'}} onClick={()=>{deleteCar(selectedCar.id)}} >Delete Car</Link>}
-                    </Box>
-                </Box>
-            </Box>
-        </Modal>
         </>
     )
 }
