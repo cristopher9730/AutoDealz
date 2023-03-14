@@ -80,7 +80,8 @@ export const Dashboard = (props) =>{
             type: '',
             year: ''
         })
-        setPreviewUrl(null)
+        setPreviewUrl(null);
+        setFile(null);
     }
 
     useEffect(() => {
@@ -108,6 +109,7 @@ export const Dashboard = (props) =>{
         fetch(`${API_BASE_URL}/api/cars/getCars`)
         .then(response => response.json())
         .then(data => {
+            restartCar();
             setCarArray(data);
             setIsLoading(false);
         });
@@ -241,7 +243,8 @@ export const Dashboard = (props) =>{
             aria-labelledby="scroll-dialog-title"
             aria-describedby="scroll-dialog-description"
             sx={{
-                '& .css-1t1j96h-MuiPaper-root-MuiDialog-paper':{
+                //'& .css-1t1j96h-MuiPaper-root-MuiDialog-paper':{
+                '& .css-uhb5lp':{
                 maxWidth:'70%'
             }}}
         >
