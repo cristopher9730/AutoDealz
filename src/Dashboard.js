@@ -445,40 +445,7 @@ export const Dashboard = (props) =>{
                                     onChange={handleInputChange}    
                                 />
                             </Box>
-                            <Box sx={{mb:2}}>
-
-                                <FormControl sx={{ m: 0, width:'100%' }}>
-                                    <InputLabel id="selectType">Type</InputLabel>
-                                    <Select
-                                        labelId="selectType"
-                                        value={selectedCar.type}
-                                        onChange={handleInputChange}
-                                        label="Type"
-                                        name='type'
-                                        disabled={props.info} 
-                                        >
-                                        
-                                        
-                                        <MenuItem value='Sedan'>
-                                            <em>Sedan</em>
-                                        </MenuItem>
-                                        <MenuItem value='Hatchback'>
-                                            <em>Hatchback</em>
-                                        </MenuItem>  
-                                        <MenuItem value='SUV'>
-                                            <em>SUV</em>
-                                        </MenuItem> 
-                                        <MenuItem value='Coupe'>
-                                            <em>Coupe</em>
-                                        </MenuItem>
-                                        <MenuItem value='Pickup'>
-                                            <em>Pickup</em>
-                                        </MenuItem>  
-                                        
-                                    </Select>
-                                </FormControl>
-
-                            </Box>
+                            
                         </Grid>
                         <Grid item lg={3} md={6} sm={10} xs={12} sx={{display:'flex', flexDirection:'column', alignItems:'center'}}>
                                         <Box width={'100%'} height={'70%'} sx={{mb:1}} >
