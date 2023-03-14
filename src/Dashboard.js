@@ -58,12 +58,26 @@ export const Dashboard = (props) =>{
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 
-    useEffect(()=>{
-        if(!props.info){
-            restartCar();
-        }      
+    useEffect(()=>{     
         loadPage();
     },[]);
+
+    useEffect(()=>{
+        if(!props.openModal){
+            restartCar();
+        }      
+    },[props.handleModal]);
+
+    useEffect(() => {
+        if (!file) {
+          return;
+        }
+        const fileReader = new FileReader();
+        fileReader.onload = () => {
+          setPreviewUrl(fileReader.result);
+        };
+        fileReader.readAsDataURL(file);
+      }, [file]);
 
     const restartCar = () => {
         setSelectedCar({
@@ -84,18 +98,6 @@ export const Dashboard = (props) =>{
         setFile(null);
     }
 
-    useEffect(() => {
-        if (!file) {
-          return;
-        }
-        const fileReader = new FileReader();
-        fileReader.onload = () => {
-          setPreviewUrl(fileReader.result);
-        };
-        fileReader.readAsDataURL(file);
-      }, [file]);
-
-    
       const fileUpload = event => {
         let pickedFile;
         if (event.target.files && event.target.files.length === 1) {
@@ -496,10 +498,6 @@ export const Dashboard = (props) =>{
                             color='primary' sx={{m:'15px', width:'90px'}}
                             onClick = {()=> {
                                 props.handleModal(false);
-                                setTimeout(() => {
-                                    restartCar();
-                                }, "500");
-                                
                             }}
                             >
                                 Close
