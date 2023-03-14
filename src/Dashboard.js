@@ -240,7 +240,8 @@ export const Dashboard = (props) =>{
             aria-labelledby="scroll-dialog-title"
             aria-describedby="scroll-dialog-description"
             sx={{
-                '& .css-1t1j96h-MuiPaper-root-MuiDialog-paper':{
+                //'& .css-1t1j96h-MuiPaper-root-MuiDialog-paper':{
+                '& .css-uhb5lp':{
                 maxWidth:'70%'
             }}}
         >
