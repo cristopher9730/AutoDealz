@@ -8,7 +8,6 @@ import {
     Button, 
     CircularProgress,
     Box,
-    Modal,
     TextField,
     Link,
     InputAdornment,
@@ -32,8 +31,7 @@ const flex = {
     justifyContent: 'center'
 }
 
-//const API_BASE_URL = 'https://componentes-spring.azurewebsites.net';
-const API_BASE_URL = 'http://localhost:8080';
+const API_BASE_URL = 'https://componentes-spring.azurewebsites.net';
 
 export const Dashboard = (props) =>{
 
