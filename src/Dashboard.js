@@ -33,6 +33,7 @@ const flex = {
 
 const API_BASE_URL = 'https://componentes-spring.azurewebsites.net';
 
+
 export const Dashboard = (props) =>{
 
     const dashBoard = {
