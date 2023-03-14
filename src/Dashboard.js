@@ -493,7 +493,10 @@ export const Dashboard = (props) =>{
                             color='primary' sx={{m:'15px', width:'90px'}}
                             onClick = {()=> {
                                 props.handleModal(false);
-                                restartCar();
+                                setTimeout(() => {
+                                    restartCar();
+                                }, "500");
+                                
                             }}
                             >
                                 Close
