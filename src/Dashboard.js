@@ -38,7 +38,6 @@ const API_BASE_URL = 'https://componentes-spring.azurewebsites.net';
 
 
 export const Dashboard = (props) =>{
-
     const dashBoard = {
         display:'flex',
         flexWrap:'wrap',
@@ -57,6 +56,21 @@ export const Dashboard = (props) =>{
     const [file, setFile] = useState();
     const [previewUrl, setPreviewUrl] = useState();
     const [showAlert, setShowAlert] = useState(false);
+
+    const defaultCarValues = {
+        brand: '',
+        color: '',
+        cylinders: '',
+        fuel:'',
+        model:'',
+        odometer:'',
+        picture: '',
+        price: '',
+        sold: false,
+        transmission:'',
+        type: '',
+        year: ''
+    }
 
     const numberWithCommas = (number) =>{
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -84,20 +98,7 @@ export const Dashboard = (props) =>{
       }, [file]);
 
     const restartCar = () => {
-        setSelectedCar({
-            brand: '',
-            color: '',
-            cylinders: '',
-            fuel:'',
-            model:'',
-            odometer:'',
-            picture: '',
-            price: '',
-            sold: false,
-            transmission:'',
-            type: '',
-            year: ''
-        })
+        setSelectedCar(defaultCarValues);
         setPreviewUrl(null);
         setFile(null);
         setShowAlert(false);
@@ -131,17 +132,17 @@ export const Dashboard = (props) =>{
       };
 
       const validateForm = () => {
-        return !(selectedCar.brand == '' || 
-        selectedCar.color == '' ||
-        selectedCar.cylinders == '' ||
-        selectedCar.fuel == '' ||
-        selectedCar.model == '' ||
-        selectedCar.odometer == '' ||
-        selectedCar.price == '' ||
-        selectedCar.transmission == '' ||
-        selectedCar.type == '' ||
-        selectedCar.year == '' ||
-        previewUrl == null)
+        return !(!selectedCar.brand || 
+        !selectedCar.color||
+        !selectedCar.cylinders ||
+        !selectedCar.fuel ||
+        !selectedCar.model ||
+        !selectedCar.odometer ||
+        !selectedCar.price ||
+        !selectedCar.transmission ||
+        !selectedCar.type ||
+        !selectedCar.year ||
+        !previewUrl)
       }
 
       const markAsSold = (car) =>{
@@ -178,18 +179,20 @@ export const Dashboard = (props) =>{
 
       const modalAction = () => {
         if(!props.info){
-            if(validateForm()){
-                submit(selectedCar);
-            }else{
-                setShowAlert(true);
-            }
-            
+            submissionProcess();
         }
         else{
             props.handleInfo(false);
         }
-    }
+      }
 
+      const submissionProcess = () =>{
+        if(validateForm()){
+            submit(selectedCar);
+        }else{
+            setShowAlert(true);
+        }
+      }
       const generateYearOptions = () => {
         const currentYear = new Date().getFullYear();
         const years = [];
@@ -300,7 +303,7 @@ export const Dashboard = (props) =>{
                                     label="Brand" 
                                     variant="outlined" 
                                     fullWidth
-                                    error={selectedCar.brand==''?true:false}
+                                    error={!selectedCar.brand && showAlert}
                                     defaultValue={props.info? selectedCar.brand:''} 
                                     disabled={props.info}
                                     name='brand'
@@ -312,7 +315,7 @@ export const Dashboard = (props) =>{
                                     label="Color" 
                                     variant="outlined" 
                                     fullWidth
-                                    error={selectedCar.color==''?true:false} 
+                                    error={!selectedCar.color&& showAlert} 
                                     defaultValue={props.info? selectedCar.color:''} 
                                     disabled={props.info}
                                     name='color'
@@ -326,7 +329,7 @@ export const Dashboard = (props) =>{
                                     <Select
                                         labelId="selectType"
                                         value={selectedCar.type}
-                                        error={selectedCar.type==''?true:false}
+                                        error={!selectedCar.type&& showAlert}
                                         onChange={handleInputChange}
                                         label="Type"
                                         name='type'
@@ -357,7 +360,7 @@ export const Dashboard = (props) =>{
                                     label="Price" 
                                     variant="outlined" 
                                     fullWidth
-                                    error={selectedCar.price==''?true:false} 
+                                    error={!selectedCar.price&& showAlert} 
                                     defaultValue={props.info? selectedCar.price:''} 
                                     disabled={props.info} 
                                     name='price'
@@ -375,7 +378,7 @@ export const Dashboard = (props) =>{
                                     label="Model" 
                                     variant="outlined" 
                                     fullWidth
-                                    error={selectedCar.model==''?true:false} 
+                                    error={!selectedCar.model&& showAlert} 
                                     defaultValue={props.info? selectedCar.model:''} 
                                     disabled={props.info} 
                                     name='model'
@@ -389,7 +392,7 @@ export const Dashboard = (props) =>{
                                     <Select
                                         labelId="selectFuel"
                                         value={selectedCar.fuel}
-                                        error={selectedCar.fuel==''?true:false}
+                                        error={!selectedCar.fuel&& showAlert}
                                         onChange={handleInputChange}
                                         label="Fuel"
                                         name='fuel'
@@ -412,7 +415,7 @@ export const Dashboard = (props) =>{
                                     label="Odometer" 
                                     variant="outlined" 
                                     fullWidth
-                                    error={selectedCar.odometer==''?true:false} 
+                                    error={!selectedCar.odometer&& showAlert} 
                                     defaultValue={props.info? selectedCar.odometer:''} 
                                     disabled={props.info} 
                                     name='odometer'
@@ -427,7 +430,7 @@ export const Dashboard = (props) =>{
                                     <Select
                                         labelId="selectTransmission"
                                         value={selectedCar.transmission}
-                                        error={selectedCar.transmission==''?true:false}
+                                        error={!selectedCar.transmission&& showAlert}
                                         onChange={handleInputChange}
                                         label="Transmission"
                                         name='transmission'
@@ -454,7 +457,7 @@ export const Dashboard = (props) =>{
                                     <Select
                                         labelId="selectYear"
                                         value={selectedCar.year}
-                                        error={selectedCar.year==''?true:false}
+                                        error={!selectedCar.year&& showAlert}
                                         onChange={handleInputChange}
                                         label="Year"
                                         name='year'
@@ -476,7 +479,7 @@ export const Dashboard = (props) =>{
                                     label="Cylinders" 
                                     variant="outlined" 
                                     fullWidth
-                                    error={selectedCar.cylinders==''?true:false} 
+                                    error={!selectedCar.cylinders&& showAlert} 
                                     defaultValue={props.info? selectedCar.cylinders:''} 
                                     disabled={props.info} 
                                     name='cylinders'
