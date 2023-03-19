@@ -84,7 +84,7 @@ export const Dashboard = (props) =>{
         if(!props.openModal){
             setTimeout(()=>{
                 restartCar();
-            },500);
+            },300);
         }      
     },[props.openModal]);
 
