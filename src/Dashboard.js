@@ -19,7 +19,10 @@ import {
     DialogActions,
     DialogContent,
     DialogContentText,
-    DialogTitle     
+    DialogTitle,
+    Stack,
+    Alert,     
+    Collapse
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
@@ -53,6 +56,7 @@ export const Dashboard = (props) =>{
     const [selectedCar, setSelectedCar] = useState({});
     const [file, setFile] = useState();
     const [previewUrl, setPreviewUrl] = useState();
+    const [showAlert, setShowAlert] = useState(false);
 
     const numberWithCommas = (number) =>{
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -96,6 +100,7 @@ export const Dashboard = (props) =>{
         })
         setPreviewUrl(null);
         setFile(null);
+        setShowAlert(false);
     }
 
       const fileUpload = event => {
@@ -124,6 +129,20 @@ export const Dashboard = (props) =>{
           [name]: value
         }));
       };
+
+      const validateForm = () => {
+        return !(selectedCar.brand == '' || 
+        selectedCar.color == '' ||
+        selectedCar.cylinders == '' ||
+        selectedCar.fuel == '' ||
+        selectedCar.model == '' ||
+        selectedCar.odometer == '' ||
+        selectedCar.price == '' ||
+        selectedCar.transmission == '' ||
+        selectedCar.type == '' ||
+        selectedCar.year == '' ||
+        previewUrl == null)
+      }
 
       const markAsSold = (car) =>{
         car.sold = true;
@@ -159,7 +178,12 @@ export const Dashboard = (props) =>{
 
       const modalAction = () => {
         if(!props.info){
-            submit(selectedCar);
+            if(validateForm()){
+                submit(selectedCar);
+            }else{
+                setShowAlert(true);
+            }
+            
         }
         else{
             props.handleInfo(false);
@@ -275,7 +299,8 @@ export const Dashboard = (props) =>{
                                 <TextField 
                                     label="Brand" 
                                     variant="outlined" 
-                                    fullWidth 
+                                    fullWidth
+                                    error={selectedCar.brand==''?true:false}
                                     defaultValue={props.info? selectedCar.brand:''} 
                                     disabled={props.info}
                                     name='brand'
@@ -286,7 +311,8 @@ export const Dashboard = (props) =>{
                                 <TextField 
                                     label="Color" 
                                     variant="outlined" 
-                                    fullWidth 
+                                    fullWidth
+                                    error={selectedCar.color==''?true:false} 
                                     defaultValue={props.info? selectedCar.color:''} 
                                     disabled={props.info}
                                     name='color'
@@ -300,6 +326,7 @@ export const Dashboard = (props) =>{
                                     <Select
                                         labelId="selectType"
                                         value={selectedCar.type}
+                                        error={selectedCar.type==''?true:false}
                                         onChange={handleInputChange}
                                         label="Type"
                                         name='type'
@@ -329,7 +356,8 @@ export const Dashboard = (props) =>{
                                 <TextField 
                                     label="Price" 
                                     variant="outlined" 
-                                    fullWidth 
+                                    fullWidth
+                                    error={selectedCar.price==''?true:false} 
                                     defaultValue={props.info? selectedCar.price:''} 
                                     disabled={props.info} 
                                     name='price'
@@ -346,7 +374,8 @@ export const Dashboard = (props) =>{
                                 <TextField 
                                     label="Model" 
                                     variant="outlined" 
-                                    fullWidth 
+                                    fullWidth
+                                    error={selectedCar.model==''?true:false} 
                                     defaultValue={props.info? selectedCar.model:''} 
                                     disabled={props.info} 
                                     name='model'
@@ -360,6 +389,7 @@ export const Dashboard = (props) =>{
                                     <Select
                                         labelId="selectFuel"
                                         value={selectedCar.fuel}
+                                        error={selectedCar.fuel==''?true:false}
                                         onChange={handleInputChange}
                                         label="Fuel"
                                         name='fuel'
@@ -381,7 +411,8 @@ export const Dashboard = (props) =>{
                                 <TextField 
                                     label="Odometer" 
                                     variant="outlined" 
-                                    fullWidth 
+                                    fullWidth
+                                    error={selectedCar.odometer==''?true:false} 
                                     defaultValue={props.info? selectedCar.odometer:''} 
                                     disabled={props.info} 
                                     name='odometer'
@@ -396,6 +427,7 @@ export const Dashboard = (props) =>{
                                     <Select
                                         labelId="selectTransmission"
                                         value={selectedCar.transmission}
+                                        error={selectedCar.transmission==''?true:false}
                                         onChange={handleInputChange}
                                         label="Transmission"
                                         name='transmission'
@@ -422,6 +454,7 @@ export const Dashboard = (props) =>{
                                     <Select
                                         labelId="selectYear"
                                         value={selectedCar.year}
+                                        error={selectedCar.year==''?true:false}
                                         onChange={handleInputChange}
                                         label="Year"
                                         name='year'
@@ -442,7 +475,8 @@ export const Dashboard = (props) =>{
                                 <TextField 
                                     label="Cylinders" 
                                     variant="outlined" 
-                                    fullWidth 
+                                    fullWidth
+                                    error={selectedCar.cylinders==''?true:false} 
                                     defaultValue={props.info? selectedCar.cylinders:''} 
                                     disabled={props.info} 
                                     name='cylinders'
@@ -477,6 +511,11 @@ export const Dashboard = (props) =>{
                                         </Box>   
                         </Grid>
                     </Grid>
+                    <Stack sx={{ width: '100%' }} spacing={2}>
+                        <Collapse in={showAlert}>
+                            <Alert severity="error">Please, fill out the required fields</Alert>
+                        </Collapse>
+                    </Stack>
                 </Box>
                 </Box>
             </DialogContentText>
@@ -487,7 +526,7 @@ export const Dashboard = (props) =>{
                             {!selectedCar.sold && <Button size='medium' variant='contained'
                             color='primary' sx={{m:'15px', width:'90px'}}
                             onClick={()=>{
-                                modalAction();
+                                modalAction()
                             }}
                             >
                                 {props.info ? "Edit": "Save"}
