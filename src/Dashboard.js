@@ -82,9 +82,11 @@ export const Dashboard = (props) =>{
 
     useEffect(()=>{
         if(!props.openModal){
-            restartCar();
+            setTimeout(()=>{
+                restartCar();
+            },500);
         }      
-    },[props.handleModal]);
+    },[props.openModal]);
 
     useEffect(() => {
         if (!file) {
